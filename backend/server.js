@@ -119,10 +119,28 @@ app.delete("/notes/:id", (req, res) => {
 
 /* ================= STATIC FRONTEND ================= */
 const path = require("path");
-app.use(express.static(path.resolve(__dirname, "../frontend")));
+const fs = require("fs");
+const rootDir = path.resolve(__dirname, "..");
+const frontendDir = path.resolve(__dirname, "../frontend");
+
+// Explicit route for background image
+app.get("/new.jpg", (req, res) => {
+    const imagePath = path.join(rootDir, "new.jpg");
+    res.sendFile(imagePath, (err) => {
+        if (err && err.code === "ENOENT") {
+            console.log("new.jpg not found at:", imagePath);
+            res.status(404).send("Image not found");
+        }
+    });
+});
+
+// Serve root files first (new.jpg and other assets)
+app.use(express.static(rootDir));
+// Then serve frontend files
+app.use(express.static(frontendDir));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend/index.html"));
+    res.sendFile(path.join(frontendDir, "index.html"));
 });
 
 /* ================= SERVER ================= */
