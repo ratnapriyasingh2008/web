@@ -1,40 +1,173 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Website</title>
+    <title>StudyHub - Student Notes & Contacts Manager</title>
     <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
-<h1>My Website</h1>
+<h1>📚 StudyHub</h1>
 
-<div class="box" id="loginBox">
-    <h2>Login / Signup</h2>
-    <input id="user" placeholder="Username"><br>
-    <input id="pass" type="password" placeholder="Password"><br>
-    <button onclick="signup()">Signup</button>
-    <button onclick="login()">Login</button>
+<div id="loginBox">
+    <div class="hero" style="position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; right: 0; opacity: 0.15; font-size: 4rem;">📚</div>
+        <div style="position: absolute; bottom: 0; left: 0; opacity: 0.15; font-size: 3rem;">✏️</div>
+        <div style="position: relative; z-index: 1;">
+            <h2>Welcome to StudyHub</h2>
+            <p>Your personal study companion for notes, contacts, and academic management</p>
+        </div>
+    </div>
+
+    <div style="width: min(90%, 600px); margin: 20px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="box" style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(255, 159, 28, 0.1) 0%, rgba(255, 200, 100, 0.05) 100%);">
+            <h3 style="color: #ff9f1c; font-size: 1.2rem; margin-bottom: 5px;">📝 500+</h3>
+            <p style="color: #666; font-size: 0.9rem;">Active Students</p>
+        </div>
+        <div class="box" style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(100, 200, 150, 0.05) 100%);">
+            <h3 style="color: #27ae60; font-size: 1.2rem; margin-bottom: 5px;">🎓 2000+</h3>
+            <p style="color: #666; font-size: 0.9rem;">Study Notes</p>
+        </div>
+    </div>
+
+    <div class="box" id="authBox">
+        <h2>Login or Create Account</h2>
+        <label for="user">Username</label>
+        <input id="user" placeholder="Enter your username" type="text">
+        <label for="pass">Password</label>
+        <input id="pass" type="password" placeholder="Enter your password">
+        <button onclick="signup()" style="background: #4CAF50; width: 100%;">📝 Create Account</button>
+        <button onclick="login()" style="background: #ff9f1c; width: 100%; margin-top: 10px;">🔑 Login</button>
+    </div>
+
+    <div class="box" style="background: linear-gradient(135deg, #f9f8f6 0%, #f0f0f0 100%); border-left: 4px solid #ff9f1c; background-image: radial-gradient(circle at 100% 50%, rgba(255, 159, 28, 0.05) 0%, transparent 50%);">
+        <h3 style="color: #2c3e50; margin-bottom: 10px;">✨ Features</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li>✅ Create & organize study notes</li>
+            <li>✅ Manage classmate contacts</li>
+            <li>✅ Track multiple subjects</li>
+            <li>✅ Cloud-based storage</li>
+            <li>✅ Easy note sharing</li>
+        </ul>
+    </div>
 </div>
 
 <div id="main">
-    <div class="box">
-        <h2>Welcome <span id="welcome"></span></h2>
-        <button onclick="logout()">Logout</button>
+    <!-- Dashboard Header -->
+    <div class="box" style="background: linear-gradient(135deg, #fff 0%, #f9f8f6 100%); border-left: 5px solid #ff9f1c; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -20px; right: -30px; font-size: 5rem; opacity: 0.08;">🎓</div>
+        <div style="position: relative; z-index: 1;">
+            <h2>👋 Welcome, <span id="welcome" style="color: #ff9f1c;"></span>!</h2>
+            <p style="color: #666; margin-bottom: 15px;">Welcome back! Keep up with your studies and stay organized.</p>
+            <button onclick="logout()" style="background: #e74c3c; color: white; width: 100%;">🚪 Logout</button>
+        </div>
     </div>
 
-    <div class="box">
-        <h2>Contact Form</h2>
-        <input id="name" placeholder="Name"><br>
-        <input id="email" placeholder="Email"><br>
-        <button onclick="addData()">Submit</button>
+    <!-- Quick Stats -->
+    <div style="width: min(90%, 600px); margin: 20px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="box" style="text-align: center; border-left: 4px solid #ff9f1c; background: linear-gradient(135deg, rgba(255, 159, 28, 0.08) 0%, rgba(255, 200, 100, 0.03) 100%);">
+            <h3 id="noteCount" style="color: #ff9f1c; font-size: 2rem; margin: 10px 0;">0</h3>
+            <p style="color: #666; font-size: 0.9rem; margin: 0;">Total Notes</p>
+        </div>
+        <div class="box" style="text-align: center; border-left: 4px solid #27ae60; background: linear-gradient(135deg, rgba(39, 174, 96, 0.08) 0%, rgba(100, 200, 150, 0.03) 100%);">
+            <h3 id="contactCount" style="color: #27ae60; font-size: 2rem; margin: 10px 0;">0</h3>
+            <p style="color: #666; font-size: 0.9rem; margin: 0;">Contacts</p>
+        </div>
     </div>
 
+    <!-- Student Notes Section -->
     <div class="box">
-        <h2>Saved Data</h2>
-        <ul id="list"></ul>
+        <h2>📖 Create Study Notes</h2>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">📚 Save important topics, formulas, and study materials for easy access later</p>
+        
+        <label for="subject">📌 Select Subject</label>
+        <select id="subject" style="margin: 6px 0 14px;">
+            <option value="">-- Choose a Subject --</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+            <option value="History">History</option>
+            <option value="English">English</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Other">Other Subject</option>
+        </select>
+        
+        <label for="title">📝 Note Title</label>
+        <input id="title" placeholder="e.g., Chapter 5: Quadratic Equations" type="text">
+        
+        <label for="content">✍️ Note Content</label>
+        <textarea id="content" placeholder="Write your study notes here...&#10;- Key concepts&#10;- Important formulas&#10;- Examples and solutions"></textarea>
+        
+        <button onclick="addNote()" style="width: 100%; background: #ff9f1c;">💾 Save Note</button>
+        
+        <h3 style="margin-top: 20px; color: #2c3e50; border-bottom: 2px solid #ff9f1c; padding-bottom: 8px;">📚 My Study Notes</h3>
+        <ul id="noteList" style="margin-top: 15px;"></ul>
+    </div>
+
+    <!-- Study Subjects Overview -->
+    <div class="box" style="background: linear-gradient(135deg, #f9f8f6 0%, #f0f0f0 100%); border-left: 4px solid #ff9f1c; background-image: radial-gradient(circle at 100% 0%, rgba(255, 159, 28, 0.05) 0%, transparent 50%);">
+        <h2>🎓 Study Subjects</h2>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Track your notes across different subjects</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(255, 159, 28, 0.1) 0%, rgba(255, 200, 100, 0.05) 100%); border-radius: 4px; border: 1px solid #ffe0c0;">
+                <span style="font-size: 2rem; display: block; margin-bottom: 5px;">📐</span><small style="color: #666;">Mathematics</small>
+            </div>
+            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(100, 150, 200, 0.1) 0%, rgba(150, 180, 220, 0.05) 100%); border-radius: 4px; border: 1px solid #e0e8ff;">
+                <span style="font-size: 2rem; display: block; margin-bottom: 5px;">🔬</span><small style="color: #666;">Science</small>
+            </div>
+            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(200, 100, 100, 0.1) 0%, rgba(220, 150, 150, 0.05) 100%); border-radius: 4px; border: 1px solid #ffe0e0;">
+                <span style="font-size: 2rem; display: block; margin-bottom: 5px;">📖</span><small style="color: #666;">English</small>
+            </div>
+            <div style="text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(100, 200, 100, 0.1) 0%, rgba(150, 220, 150, 0.05) 100%); border-radius: 4px; border: 1px solid #e0ffe0;">
+                <span style="font-size: 2rem; display: block; margin-bottom: 5px;">💻</span><small style="color: #666;">Computer</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contacts Section -->
+    <div class="box">
+        <h2>👥 Study Group & Contacts</h2>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">📞 Keep track of your classmates and study partners for quick collaboration</p>
+        
+        <label for="name">👤 Contact Name</label>
+        <input id="name" placeholder="Friend's full name" type="text">
+        
+        <label for="email">📧 Email Address</label>
+        <input id="email" placeholder="friend@email.com" type="email">
+        
+        <button onclick="addData()" style="width: 100%; background: #27ae60;">➕ Add Contact</button>
+        
+        <h3 style="margin-top: 20px; color: #2c3e50; border-bottom: 2px solid #27ae60; padding-bottom: 8px;">📋 My Contacts</h3>
+        <ul id="list" style="margin-top: 15px;"></ul>
+    </div>
+
+    <!-- Study Tips Section -->
+    <div class="box" style="background: linear-gradient(135deg, rgba(255, 159, 28, 0.08) 0%, rgba(255, 200, 100, 0.03) 100%); border-left: 4px solid #ff9f1c; background-image: radial-gradient(circle at 0% 100%, rgba(255, 159, 28, 0.05) 0%, transparent 50%);">
+        <h2>💡 Study Tips & Tricks</h2>
+        <div style="line-height: 2;">
+            <p>✅ <strong>Use Active Recall:</strong> Test yourself on notes regularly</p>
+            <p>✅ <strong>Spaced Repetition:</strong> Review notes at increasing intervals</p>
+            <p>✅ <strong>Make Connections:</strong> Link new info to existing knowledge</p>
+            <p>✅ <strong>Teach Others:</strong> Explain concepts to classmates</p>
+            <p>✅ <strong>Take Breaks:</strong> Study 25 mins, break 5 mins (Pomodoro)</p>
+            <p>✅ <strong>Organize Notes:</strong> Use this app to keep everything tidy</p>
+        </div>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="box" style="background: linear-gradient(135deg, rgba(100, 150, 200, 0.08) 0%, rgba(150, 180, 220, 0.03) 100%); text-align: center; border-left: 4px solid #6496c8; background-image: radial-gradient(circle at 100% 0%, rgba(100, 150, 200, 0.05) 0%, transparent 50%);">
+        <h2>📢 Have Feedback?</h2>
+        <p style="color: #666; margin-bottom: 15px;">Help us improve StudyHub - your suggestions matter!</p>
+        <p style="color: #999; font-size: 0.9rem;">Email: feedback@studyhub.com | Version: 1.0 ⭐</p>
     </div>
 </div>
+
+<footer>
+    <p>© 2026 StudyHub - Your Learning Partner | Designed for Students</p>
+</footer>
 
 <script src="script.js"></script>
 

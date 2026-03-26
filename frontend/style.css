@@ -1,34 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+        url('../new.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #333;
+    min-height: 100vh;
+}
+
+h1 {
+    margin: 0;
+    padding: 30px 20px 15px;
+    font-size: 2.5rem;
+    letter-spacing: 0px;
+    color: #2c3e50;
     text-align: center;
-    background: #6a11cb;
-    color: white;
+    text-shadow: none;
+    font-weight: 800;
+    background: linear-gradient(135deg, rgba(255, 159, 28, 0.1) 0%, rgba(255, 159, 28, 0.05) 100%);
+    border-bottom: 3px solid #ff9f1c;
+}
+
+h2 {
+    color: #5a4a42;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    font-weight: 700;
 }
 
 .box {
-    background: white;
-    color: black;
-    padding: 20px;
-    margin: 20px auto;
-    width: 300px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #ffffff 0%, #faf9f7 100%);
+    color: #111;
+    padding: 24px;
+    margin: 16px auto;
+    width: min(90%, 500px);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08), inset 0 1px 0px rgba(255, 255, 255, 0.5);
+    text-align: left;
+    border: 1px solid #ebe7e2;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 159, 28, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(100, 150, 200, 0.02) 0%, transparent 50%);
 }
 
-input {
-    padding: 8px;
-    margin: 5px;
-    width: 90%;
+.box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), inset 0 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+.hero {
+    background: linear-gradient(135deg, #ffffff 0%, #fefdfb 100%);
+    color: #333;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin: 20px auto;
+    width: min(90%, 600px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 3px solid #ffd700;
+    background-image: 
+        radial-gradient(circle at 100% 0%, rgba(255, 159, 28, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(100, 150, 200, 0.03) 0%, transparent 50%);
+}
+
+.hero h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin: 0 0 10px;
+}
+
+.hero p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+label {
+    display: block;
+    margin: 12px 0 5px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+input, textarea, select {
+    padding: 12px;
+    margin: 6px 0 14px;
+    width: 100%;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+    background: #fafaf8;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #ff9f1c;
+    background: white;
+    box-shadow: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
 button {
-    padding: 8px;
-    margin: 5px;
-    background: darkblue;
+    padding: 12px 20px;
+    margin: 6px;
+    background: #ff9f1c;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+button:hover {
+    background: #e88a0f;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0px);
 }
 
 #main {
     display: none;
+}
+
+#noteList, #list {
+    padding-left: 0;
+    list-style: none;
+}
+
+#noteList li, #list li {
+    background: linear-gradient(135deg, #f9f8f6 0%, #f5f4f2 100%);
+    border-left: 4px solid #ff9f1c;
+    border-radius: 4px;
+    padding: 14px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), inset 0 1px 0px rgba(255, 255, 255, 0.7);
+    transition: all 0.2s ease;
+    background-image: 
+        radial-gradient(circle at 100% 0%, rgba(255, 159, 28, 0.05) 0%, transparent 50%);
+}
+
+#noteList li:hover, #list li:hover {
+    background: linear-gradient(135deg, #fefdfb 0%, #fab9fa 100%);
+    transform: translateX(3px);
+}
+
+#noteList li button, #list li button {
+    float: right;
+    margin: 0;
+    padding: 6px 12px;
+    background: #e74c3c;
+    font-size: 0.85rem;
+}
+
+#noteList li button:hover, #list li button:hover {
+    background: #c0392b;
+}
+
+.success {
+    background: #d4edda;
+    padding: 12px;
+    border-radius: 4px;
+    color: #155724;
+    margin: 10px 0;
+    border-left: 4px solid #28a745;
+    font-weight: 500;
+}
+
+.error {
+    background: #f8d7da;
+    padding: 12px;
+    border-radius: 4px;
+    color: #721c24;
+    margin: 10px 0;
+    border-left: 4px solid #f5c6cb;
+    font-weight: 500;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #666;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, rgba(255, 159, 28, 0.05) 0%, rgba(100, 150, 200, 0.05) 100%);
+    border-top: 2px solid #ff9f1c;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.box {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .box { width: 95% !important; }
+    button { padding: 10px 15px; font-size: 0.9rem; }
 }

@@ -70,7 +70,7 @@ app.get("/data/:user_id", (req, res) => {
     );
 });
 
-// DELETE
+// DELETE contact
 app.delete("/data/:id", (req, res) => {
     db.query(
         "DELETE FROM contacts WHERE id=?",
@@ -82,11 +82,47 @@ app.delete("/data/:id", (req, res) => {
     );
 });
 
+// STUDENT NOTES CRUD
+app.post("/notes/add", (req, res) => {
+    const { user_id, subject, title, content } = req.body;
+    db.query(
+        "INSERT INTO notes (user_id, subject, title, content) VALUES (?, ?, ?, ?)",
+        [user_id, subject, title, content],
+        (err) => {
+            if (err) return res.status(500).send(err);
+            res.send("Note added");
+        }
+    );
+});
+
+app.get("/notes/:user_id", (req, res) => {
+    db.query(
+        "SELECT * FROM notes WHERE user_id=? ORDER BY created_at DESC",
+        [req.params.user_id],
+        (err, result) => {
+            if (err) return res.status(500).send(err);
+            res.json(result);
+        }
+    );
+});
+
+app.delete("/notes/:id", (req, res) => {
+    db.query(
+        "DELETE FROM notes WHERE id=?",
+        [req.params.id],
+        (err) => {
+            if (err) return res.status(500).send(err);
+            res.send("Note deleted");
+        }
+    );
+});
+
 /* ================= STATIC FRONTEND ================= */
-app.use(express.static("../frontend"));
+const path = require("path");
+app.use(express.static(path.resolve(__dirname, "../frontend")));
 
 app.get("/", (req, res) => {
-    res.sendFile(require("path").resolve(__dirname, "../frontend/index.html"));
+    res.sendFile(path.resolve(__dirname, "../frontend/index.html"));
 });
 
 /* ================= SERVER ================= */
