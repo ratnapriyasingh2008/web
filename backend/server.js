@@ -226,6 +226,21 @@ app.get("/", (req, res) => {
 
 /* ================= SERVER ================= */
 
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+// For local development
+const server = app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Handle graceful shutdown
+process.on("SIGTERM", () => {
+    console.log("SIGTERM signal received: closing HTTP server");
+    server.close(() => {
+        console.log("HTTP server closed");
+        process.exit(0);
+    });
+});
+
+// Export for Vercel serverless
+module.exports = app;
