@@ -144,7 +144,14 @@ async function addData() {
         return;
     }
 
+    if (!currentUser || !currentUser.id) {
+        showMessage("❌ User not logged in", "error");
+        return;
+    }
+
     try {
+        console.log("👥 Adding contact:", { user_id: currentUser.id, name, email });
+        
         let res = await fetch(API + "/data/add", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
@@ -155,16 +162,21 @@ async function addData() {
             })
         });
 
-        if (res.ok) {
+        let data = await res.json();
+        
+        if (res.ok && data.success) {
+            console.log("✅ Contact added:", data);
             showMessage(`✅ Contact "${name}" added!`, "success");
             nameInput.value = "";
             emailInput.value = "";
-            show();
+            await show();
         } else {
-            showMessage("❌ Error adding contact", "error");
+            console.error("❌ Server error:", data);
+            showMessage(`❌ Error: ${data.error || "Failed to add contact"}`, "error");
         }
     } catch (err) {
-        showMessage("❌ Network error", "error");
+        console.error("❌ Network error:", err);
+        showMessage("❌ Network error: " + err.message, "error");
     }
 }
 
@@ -175,7 +187,10 @@ async function show() {
         let data = await res.json();
 
         list.innerHTML = "";
-        document.getElementById("contactCount").innerText = data.length;
+        if (!Array.isArray(data)) {
+            data = [];
+        }
+        document.getElementById("contactCount").innerText = data.length || 0;
 
         if (data.length === 0) {
             list.innerHTML = "<p style='color: #999; font-style: italic;'>No contacts yet. Add one to get started!</p>";
@@ -200,6 +215,8 @@ async function show() {
 
         await showNotes();
     } catch (err) {
+        console.error("Error loading contacts:", err);
+        document.getElementById("contactCount").innerText = 0;
         showMessage("❌ Error loading contacts", "error");
     }
 }
@@ -215,7 +232,14 @@ async function addNote() {
         return;
     }
 
+    if (!currentUser || !currentUser.id) {
+        showMessage("❌ User not logged in", "error");
+        return;
+    }
+
     try {
+        console.log("📝 Sending note:", { user_id: currentUser.id, subject, title, content });
+        
         let res = await fetch(API + "/notes/add", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
@@ -227,17 +251,22 @@ async function addNote() {
             })
         });
 
-        if (res.ok) {
+        let data = await res.json();
+        
+        if (res.ok && data.success) {
+            console.log("✅ Note saved successfully:", data);
             showMessage(`✅ Note "${title}" saved!`, "success");
             subjectInput.value = "";
             titleInput.value = "";
             contentInput.value = "";
-            show();
+            await show();
         } else {
-            showMessage("❌ Error saving note", "error");
+            console.error("❌ Server error:", data);
+            showMessage(`❌ Error: ${data.error || "Failed to save note"}`, "error");
         }
     } catch (err) {
-        showMessage("❌ Network error", "error");
+        console.error("❌ Network error:", err);
+        showMessage("❌ Network error: " + err.message, "error");
     }
 }
 
@@ -248,7 +277,10 @@ async function showNotes() {
         let notes = await res.json();
 
         noteList.innerHTML = "";
-        document.getElementById("noteCount").innerText = notes.length;
+        if (!Array.isArray(notes)) {
+            notes = [];
+        }
+        document.getElementById("noteCount").innerText = notes.length || 0;
 
         if (notes.length === 0) {
             noteList.innerHTML = "<p style='color: #999; font-style: italic;'>No notes yet. Create one to get started!</p>";
@@ -271,6 +303,8 @@ async function showNotes() {
             });
         }
     } catch (err) {
+        console.error("Error loading notes:", err);
+        document.getElementById("noteCount").innerText = 0;
         showMessage("❌ Error loading notes", "error");
     }
 }
